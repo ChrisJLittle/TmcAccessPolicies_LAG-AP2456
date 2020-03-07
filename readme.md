@@ -1,199 +1,227 @@
-**THIS GUIDE IS UNDER DEVELOPMENT AND MAY NOT BE FUNCTIONAL - THIS MESSAGE WILL BE REMOVED WHEN THE GUIDE IS READY FOR USE. IF YOU HAVE ANY QUESTIONS, PLEASE OPEN AN ISSUE TICKET. IF YOU WOULD LIKE TO CONTRIBUTE TO THIS GUIDE, PLEASE SUBMIT A PR WITH YOUR UPDATES, THANK YOU.** 
-
-**PLEASE DO NOT REMOVE ANYTHING ABOVE THIS LINE UNTIL YOUR GUIDE IS COMPLETE AND VALIDATED FOR END USER CONSUMPTION** 
-
-## ModernApps.ninja starter guide template 
-
-Please reference the content below for formatting examples, and replace with your desired content.
-# Lab Excercise Page Syle Template - 1st level - Main Header
+# Tanzu Mission Control - Access Policies Lab Guide
 
 **Contents:**
 
-- [Step 1: ]()
-- [Step 2: ]()
-- [Step 3: ]()
-- [Step 4: ]()
-- [Step 5: ]()
-- [Next Steps]()
+- [Tanzu Mission Control - Access Policies Lab Guide](#tanzu-mission-control---access-policies-lab-guide)
+  - [Introduction](#introduction)
+    - [Before Attempting This Lab:](#before-attempting-this-lab)
+    - [Environment Pre-Requisites](#environment-pre-requisites)
+  - [Lab Exercises](#lab-exercises)
+    - [Step 1 : Open the Policies page](#step-1--open-the-policies-page)
+    - [Step 2 : Select the view for applying access policies](#step-2--select-the-view-for-applying-access-policies)
+    - [Step 3 : Apply access policies](#step-3--apply-access-policies)
+      - [3.1: Apply policies on Organization](#31-apply-policies-on-organization)
+        - [3.1.1: View default organization access policies](#311-view-default-organization-access-policies)
+        - [3.1.2: Add new role binding to organization](#312-add-new-role-binding-to-organization)
+        - [3.1.3 Click on Role arrow to list the valid roles and choose a role:](#313-click-on-role-arrow-to-list-the-valid-roles-and-choose-a-role)
+        - [3.1.4 Click on Role arrow to list the valid roles and choose a role:](#314-click-on-role-arrow-to-list-the-valid-roles-and-choose-a-role)
+        - [3.1.5 Fill in the User identity and click Add, for more Identities to the same role click on Add for each identity](#315-fill-in-the-user-identity-and-click-add-for-more-identities-to-the-same-role-click-on-add-for-each-identity)
+        - [3.1.6: Click "Save" to add the new role binding.](#316-click-%22save%22-to-add-the-new-role-binding)
+        - [3.1.7: Edit/Delete existing role binding](#317-editdelete-existing-role-binding)
+      - [3.2: Apply policies on Cluster group](#32-apply-policies-on-cluster-group)
+        - [3.2.1: View inherited policies from Organization and default direct access policies for cluster group](#321-view-inherited-policies-from-organization-and-default-direct-access-policies-for-cluster-group)
+        - [3.2.2: Add/Edit/Delete role bindings on the direct access policy of cluster group](#322-addeditdelete-role-bindings-on-the-direct-access-policy-of-cluster-group)
+      - [3.3: Apply policies on Cluster](#33-apply-policies-on-cluster)
+        - [3.3.1 Click on cluster name (kind) in left panel under CLUSTERS view in Access Policies panel](#331-click-on-cluster-name-kind-in-left-panel-under-clusters-view-in-access-policies-panel)
+        - [3.3.2 View inherited policies from Organization and cluster group.](#332-view-inherited-policies-from-organization-and-cluster-group)
+        - [3.3.3 Add/Edit/Delete role bindings on the direct access policy of cluster.](#333-addeditdelete-role-bindings-on-the-direct-access-policy-of-cluster)
+      - [3.4: Apply policies on Workspace](#34-apply-policies-on-workspace)
+        - [3.4.1 View inherited policies from Organization and default direct access policies for workspace](#341-view-inherited-policies-from-organization-and-default-direct-access-policies-for-workspace)
+        - [3.4.2 Add/Edit/Delete role bindings on the direct access policy of workspace.](#342-addeditdelete-role-bindings-on-the-direct-access-policy-of-workspace)
+      - [3.5 Apply policies on Namespace](#35-apply-policies-on-namespace)
+        - [3.5.1 View inherited policies from Organization, workspace and clustergroup](#351-view-inherited-policies-from-organization-workspace-and-clustergroup)
+        - [3.5.2 Add/Edit/Delete role bindings on the direct access policy of namespace.](#352-addeditdelete-role-bindings-on-the-direct-access-policy-of-namespace)
+    - [Validate Lab Guide](#validate-lab-guide)
 
-## Step 1: 2nd level header, steps often have multiple substeps and subsections
+## Introduction
 
-1.1 Uses dotted decimal numbering. This sentence 1.1 is a substep of step 1. Use a single decimal format for each substep that itself does not have other substeps. For substeps that have their own substeps, use a subsection format shown in steps 1.2 and 1.3
+This document is intended to provide a guide to exploring basic usages of access policies in TMC through its UI. 
 
-This format is intended to find an optimal balance of usability for the user and flexibility and simplicity for content developers. As this paragraph demonstrates, its perfectly fine to add prose inline within each step as needed to sufficiently explain the step, keeping in mind that it is crucial for user experience to keep the document streamlined, and so recommend liberal use of hidden and expandable section blocks as shown below
+TMC provides two views to set access policies 
 
-<details><summary>Click to expand</summary>
+Clusters View
+  Access policies can be set at organization, cluster group and clusters level. The policies at a resource  level are 
+ 1. Inherited Access Policies 
+      Policies set at organization gets inherited to all the cluster groups and clusters under the organization.
+      Policies set at cluster group gets inherited to all the clusters under the cluster group.
 
-If you have any long text sections such as detailed explanations, code examples, configuration files, etc, please wrap them in expanding sections as shown here.
+ 2. Direct Access policies
+      Policies can be applied directly on the Organization, Cluster group and clusters.
+Workspaces View
+ Access policies can be set at workspace and namespace level.
+ 1. Inherited Access Policies 
+     Policies set at organization gets inherited to all the workspaces and namespaces under it.
+     Policies set at workspace gets inherited to all the namespaces under it.
 
-Keep in mind this template is optimized for Lab Exercise guides which generally include lots of tasks that the reader needs to do. 
+ 2. Direct Access policies
+      Policies can be applied directly on the workspace and namespace.
 
-Also please place all images inside expanding blocks, further details about images will be shown in step 1.4 below
+### Before Attempting This Lab:
 
+This lab has a completion difficulty of `Partial`. Please see the rubrik below for an explanation of lab completion difficulty rankings
+
+Lab Completion Difficulty Rankings:
+
+- Difficulty Levels:
+  - `Complete`
+    - A lab guide with a difficulty of `Complete` includes comprehensive, click-by-click instructions, usually with a screenshot for every command entered. `Complete` lab guides must be associated with an online lab environment fully prepped to execute the exact instructions provided in the lab guide. Most users could successfully execute the steps in a `Complete` lab guide, even if they do not have expertise in the subject, by following detailed instructions.
+  - `Partial`
+    - A lab guide with a difficulty of `Partial` includes full instructions to complete the exercise, with enough detail to where a user with moderate experience in the subject matter could complete the exercise. `Partial` lab guides provide a level of detail similar gto most typical technical documentation, where the user is expected to be able to configure their lab environment with dependencies required for the exercise, and to contextualize general instructions to the users own environment. 
+  - `Challenge`
+    - A lab guide with a difficulty of `Challenge` is designed to be technically challenging for the guide's target audience to complete. `Challenge` lab guides do not include comprehensive instructions, and intentionally leave out details required to complete exercises as a challenge or test of the users proficiency in a topic.
+
+### Environment Pre-Requisites
+
+The demo in this document is conducted with a development TMC stack in which a Kind cluster is attached.
+
+In order to demonstrate applying and viewing access policies a kind cluster (kind) is attached under the default cluster group and
+
+a namespace (demo-ns) is created under default workspace.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-04-23.png">
+</details>
+
+## Lab Exercises
+
+### Step 1 : Open the Policies page
+
+Click on Policies tab on the leftmost panel and choose the Policy Type "Access" from top panel.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-05-21.png">
+</details>
+
+### Step 2 : Select the view for applying access policies
+
+Select CLUSTERS view to apply access policies on the cluster Or Select WORKSPACES view to apply access policies on the namespaces.
+
+### Step 3 : Apply access policies
+
+#### 3.1: Apply policies on Organization
+
+##### 3.1.1: View default organization access policies
+
+- Click on Organization name on left panel under Access Policies.
+- Click on organization name under "Direct Access policies" tab on the right to expand Policies to view the role bindings.
+  - There is a default policy that is auto applied to all the Organizations, it grants Organization.admin role to all  members of csp:org_owner and  tmc:admin  group and organization.credential.view role to members of csp:org_member group.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-09-23.png">
 </details>
 <br/>
 
-1.2 Minor subsection headers
+##### 3.1.2: Add new role binding to organization
 
-1.2.1 if you have a substep that includes its own substeps, you need a subsection. This style guide offers two options for subsection handling, the minor subsection format shown here in step 1.2, and the major subsection format shown in step 1.3
+Click on "New Role Binding" button under "DirectAccess Policies" panel. 
 
-### 1.3 Major Subsection Headers
-
-Use major subsection headers whenever they are a better fit for the flow of your document. It is fine to use both minor and major subsection styles within the same document, so long as the overall flow and organization of the document make sense to the reader
-
-The rest of the text below is sample text copied from a lab exercise guide that uses this style
-
-1.3.1 Make a copy of the `frontend-deployment_all_k8s.yaml` file, save it as `frontend-deployment_ingress.yaml`
-
-Example:
-`cp frontend-deployment_all_k8s.yaml frontend-deployment_ingress.yaml`
-
-1.3.2 Get the URL of your smarcluster with the following command, be sure to replace 'afewell-cluster' with the name of your cluster:
-
-``` bash
-vke cluster show afewell-cluster | grep Address
-```
-
-<details><summary>Screenshot 1.3.2</summary>
-<img src="media/2018-10-20-15-45-19.png">
-</details>
-<br/>
-
-1.3.3 Edit the `frontend-deployment_ingress.yaml` file, near the bottom of the file in the ingress spec section, change the value for spec.rules.host to URL for your smartcluster as shown in the following snippet:
-
-NOTE: Be sure to replace the URL shown here with the URL for your own smartcluster
-
-``` bash
-spec:
-  rules:
-  - host: afewell-cluster-69fc65f8-d37d-11e8-918b-0a1dada1e740.fa2c1d78-9f00-4e30-8268-4ab81862080d.vke-user.com
-    http:
-      paths:
-      - backend:
-          serviceName: planespotter-frontend
-          servicePort: 80
-```
-
-<details><summary>Click to expand to see the full contents of frontend-deployment_ingress.yaml</summary>
-
-When reviewing the file contents below, observe that it includes a ClusterIP service spec which only provides an IP address that is usable for pod-to-pod communications in the cluster. The file also includes an ingress spec which implements the default VKE ingress controller.
-
-In the following steps after you deploy the planespotter-frontend with ingress controller, you will be able to browse from your workstation to the running planespotter app in your VKE environment even though you have not assigned a nat or public IP for the service.
-
-Ingress controllers act as a proxies, recieving http/s requests from external clients and then based on the URL hostname or path, the ingress controller will proxy the request to the corresponding back-end service. For example mysite.com/path1 and mysite.com/path2 can be routed to different backing services running in the kubernetes cluster.
-
-In the file below, no rules are specified to different paths and so accordingly, all requests sent to the host defined in the spec, your VKE SmartCluster URL, will be proxied by the ingress controller to the planespotter-frontend ClusterIP service also defined in the frontend-deployment_ingress.yaml file
-
-``` bash
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: planespotter-frontend
-  namespace: planespotter
-  labels:
-    app: planespotter-frontend
-    tier: frontend
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: planespotter-frontend
-  template:
-    metadata:
-      labels:
-        app: planespotter-frontend
-        tier: frontend
-    spec:
-      containers:
-      - name: planespotter-fe
-        image: yfauser/planespotter-frontend:d0b30abec8bfdbde01a36d07b30b2a3802d9ccbb
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: PLANESPOTTER_API_ENDPOINT
-          value: planespotter-svc
-        - name: TIMEOUT_REG
-          value: "5"
-        - name: TIMEOUT_OTHER
-          value: "5"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: planespotter-frontend
-  namespace: planespotter
-  labels:
-    app: planespotter-frontend
-spec:
-  ports:
-    # the port that this service should serve on
-    - port: 80
-  selector:
-    app: planespotter-frontend
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: planespotter-frontend
-  namespace: planespotter
-spec:
-  rules:
-  - host: afewell-cluster-69fc65f8-d37d-11e8-918b-0a1dada1e740.fa2c1d78-9f00-4e30-8268-4ab81862080d.vke-user.com
-    http:
-      paths:
-      - backend:
-          serviceName: planespotter-frontend
-          servicePort: 80
-```
-
-</details>
-<br/>
-
-1.3.4 Run the updated planespotter-frontend app and verify deployment with the following commands. Make note of the external IP address/hostname shown in the output of `kubectl get services`
-
-``` bash
-kubectl create -f frontend-deployment_ingress.yaml
-kubectl get pods
-kubectl get deployments
-kubectl get services
-kubectl get ingress
-kubectl describe ingress
-```
-
-<details><summary>Screenshot 1.3.4</summary>
-<img src="media/2018-10-20-16-11-14.png">
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-10-36.png">
 </details>
 
-1.3.5 Open a browser and go to the url of your VKE SmartCluster to verify that planespotter-frontend is externally accessible with the LoadBalancer service
+##### 3.1.3 Click on Role arrow to list the valid roles and choose a role:
 
-<details><summary>Screenshot 5.5.5</summary>
-<img src="media/2018-10-20-16-26-46.png">
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-15-08.png">
 </details>
-<br/>
 
-1.3.6 Clean up the planespotter-frontend components and verify with the following commands:
+##### 3.1.4 Click on Role arrow to list the valid roles and choose a role:
 
-``` bash
-kubectl delete -f frontend-deployment_ingress.yaml
-kubectl get pods
-kubectl get deployments
-kubectl get services
-kubectl get ingress
-```
-
-<details><summary>Screenshot 5.5.6</summary>
-<img src="media/2018-10-20-16-32-19.png">
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-16-00.png">
 </details>
-<br/>
 
-## Next Steps
+##### 3.1.5 Fill in the User identity and click Add, for more Identities to the same role click on Add for each identity
 
-This lab provided an introductory overview of Kubernetes operations. Additional topics such as persistent volumes, network policy, config maps, stateful sets and more will be covered in more detail in the ongoing labs.
+##### 3.1.6: Click "Save" to add the new role binding.
 
-If you are following the PKS Ninja cirriculum, [click here to proceed to the next lab](../Lab2-PksInstallationPhaseOne). As you proceed through the remaining labs you will learn more advanced details about Kubernetes using additional planespotter app components as examples and then deploy the complete planespotter application on a PKS environment.
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-17-07.png">
+</details>
 
-If you are not following the PKS Ninja cirriculum and would like to deploy the complete planespotter app on VKE, you can find [complete deployment instructions here](https://github.com/Boskey/run_kubernetes_with_vmware)
+##### 3.1.7: Edit/Delete existing role binding
 
-### Thank you for completing the Introduction to Kubernetes Lab!
+Click on EDIT button to add/delete user/group identities to a role.
 
-### [Please click here to proceed to Lab2: PKS Installation Phase 1](../Lab2-PksInstallationPhaseOne)
+Click on DELETE button to delete a role binding.
+
+#### 3.2: Apply policies on Cluster group
+
+##### 3.2.1: View inherited policies from Organization and default direct access policies for cluster group
+
+- Click on cluster group name (default) in left panel under CLUSTERS view in Access Policies panel
+- Click on organization name under "Inherited clustergroups access policies" tab on the right to expand inherited org policies to view the role bindings.
+- There is a default cluster group access policy that is auto applied only to the "default" clustergroup , It grants cluster.admin and clustergroup.edit role to all  members of csp:org_member. 
+- These default policies are not applied to the user created cluster group.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-19-51.png">
+</details>
+
+##### 3.2.2: Add/Edit/Delete role bindings on the direct access policy of cluster group
+
+It is similar to the demo steps as of Organization in previous section.
+
+On cluster group level inherited organization policies cannot be changed.
+
+#### 3.3: Apply policies on Cluster
+
+##### 3.3.1 Click on cluster name (kind) in left panel under CLUSTERS view in Access Policies panel
+
+##### 3.3.2 View inherited policies from Organization and cluster group.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-22-15.png">
+</details>
+
+##### 3.3.3 Add/Edit/Delete role bindings on the direct access policy of cluster.
+
+It is similar to the demo steps as of Organization in previous steps
+
+On cluster level inherited organization and cluster group policies cannot be changed.
+
+#### 3.4: Apply policies on Workspace
+
+##### 3.4.1 View inherited policies from Organization and default direct access policies for workspace
+
+- Click on Workspace name(default) on left panel under Access Policies under WORSPACES view tab.
+- Click on organization name under "Inherited workspace Access policies" tab on the right to expand Policies to view the role bindings.
+- There is a default workspace access policy that is auto applied only to the "default" workspace , It grants workspace.edit role to all  members of csp:org_member.
+- These default policies are not applied to the user created workspaces.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-25-23.png">
+</details>
+
+##### 3.4.2 Add/Edit/Delete role bindings on the direct access policy of workspace.
+
+It is similar to the demo steps as of Organization in previous steps
+
+On workspace level inherited organization  policies cannot be changed.
+
+#### 3.5 Apply policies on Namespace
+
+##### 3.5.1 View inherited policies from Organization, workspace and clustergroup
+
+- Click on Namespace name(demo-ns) on left panel under Access Policies under WORSPACES view tab.
+- Click on organization name, workspace name(default) clustergroup name(default) under "Inherited namespaces access policies" tab on the right to expand Policies to view the role bindings.
+
+<details><summary>Screenshot</summary>
+<img src="media/2020-03-06-03-28-09.png">
+</details>
+
+##### 3.5.2 Add/Edit/Delete role bindings on the direct access policy of namespace.
+
+It is similar to the demo steps as of Organization in previous steps
+
+On namespace level inherited organization policies cannot be changed.
+
+### Validate Lab Guide
+
+If you were able to complete this lab successfully without any significant problems, please sign the [validate.md](./validate.md) file located in this directory. 
+
+If you encountered any problems or have suggestions or feature requests, please open an issue ticket on this repository. 
+
+If you have any updates or improvements for this lab guide, please open a PR with your updates.
+
+**Thank you for completing the Tanzu Mission Control - Access Policies Lab Guide!**
